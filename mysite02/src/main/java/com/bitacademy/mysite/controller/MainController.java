@@ -17,7 +17,6 @@ public class MainController extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		String configPath = getServletConfig().getInitParameter("config");
-		System.out.println("init() called:"+configPath);
 		super.init();
 		
 	}
@@ -25,7 +24,6 @@ public class MainController extends HttpServlet {
 	
 	@Override
 	protected void service(HttpServletRequest arg0, HttpServletResponse arg1) throws ServletException, IOException {
-		System.out.println("service() called");
 		super.service(arg0, arg1);
 	}
 	
@@ -41,7 +39,6 @@ public class MainController extends HttpServlet {
 	
 	@Override
 	public void destroy() {
-		System.out.println("destroy() called");
 		super.destroy();
 	}
 

@@ -37,6 +37,4 @@ public class LoginAction implements Action {
 		WebUtil.redirect(request, response, request.getContextPath());
 	}
 
-	
-
 }
