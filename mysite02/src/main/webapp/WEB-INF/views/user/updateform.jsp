@@ -13,7 +13,7 @@
 			<div id="user">
 
 				<form id="join-form" name="joinForm" method="post" action="<%=request.getContextPath() %>/user">
-					<input type='hidden' name='a' value='UPDATE' />
+					<input type='hidden' name='a' value='update' />
 					<label class="block-label" for="name">이름</label>
 					<input id="name" name="name" type="text" value="권용">
 
