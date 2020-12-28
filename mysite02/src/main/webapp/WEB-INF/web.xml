@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
 	<display-name>mysite02</display-name>
-	<!-- Context(Application) Parameters -->
+	
+	<!-- Context Parameter -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/applicationContext.xml</param-value>
 	</context-param>
 
-	<!-- Context(Application) Load Listener -->
+	<!-- Context Load Listener -->
 	<listener>
 		<listener-class>com.bitacademy.mysite.web.listener.ContextLoadListener</listener-class>
 	</listener>
@@ -19,8 +23,9 @@
 		<init-param>
 			<param-name>config</param-name>
 			<param-value>utf-8</param-value>
-		</init-param>		
+		</init-param>
 	</filter>
+
 	<filter-mapping>
 		<filter-name>EncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -43,6 +48,10 @@
 		<servlet-name>GuestbookController</servlet-name>
 		<servlet-class>com.bitacademy.mysite.controller.GuestbookController</servlet-class>
 	</servlet>
+	<servlet>
+		<servlet-name>BoardController</servlet-name>
+		<servlet-class>com.bitacademy.mysite.controller.BoardController</servlet-class>
+	</servlet>
 
 	<servlet-mapping>
 		<servlet-name>MainController</servlet-name>
@@ -56,8 +65,12 @@
 		<servlet-name>GuestbookController</servlet-name>
 		<url-pattern>/guestbook</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>BoardController</servlet-name>
+		<url-pattern>/board</url-pattern>
+	</servlet-mapping>
 
-	<!-- Default Files -->
+	<!-- Deault File List -->
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
