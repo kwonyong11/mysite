@@ -25,7 +25,8 @@
 						<th>글쓴이</th>
 						<th>조회수</th>
 						<th>작성일</th>
-						<th>&nbsp;</th>
+						<th>댓글</th>
+						<th>삭제</th>
 					</tr>
 					<c:forEach items='${list }' var='vo' varStatus='status'>
 					<tr>
@@ -61,13 +62,24 @@
 								<li><a href="${pageContext.request.contextPath }/board?a=list&n=${param.n-1}">◀</a></li>
 							</c:when>
 						</c:choose>
-						<c:forEach begin='1' end='${count/11+1 }' var='c'>
+						<c:choose>
+							<c:when test="${param.n>3 }">
+								<c:set var='begin' value='${param.n-2 }'></c:set>
+							</c:when>
+							<c:otherwise>
+								<c:set var='begin' value='1'></c:set>
+							</c:otherwise>
+						</c:choose>
+						<c:forEach begin='${begin }' end='${begin+4 }' var='c'>
 							<c:choose>
 								<c:when test="${param.n==c }">
 									<li class="selected"><a href="${pageContext.request.contextPath }/board?a=list&n=${c}">${c }</a></li>
 								</c:when>
-								<c:otherwise>
+								<c:when test="${count/10+1 > c }">
 									<li><a href="${pageContext.request.contextPath }/board?a=list&n=${c}">${c }</a></li>
+								</c:when>
+								<c:otherwise>
+									<li>${c }</li>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>

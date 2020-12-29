@@ -242,25 +242,48 @@ public class BoardRepository {
 		return result;
 	}
 	
-	public boolean delete(Long no) {
+	public int delete(List<BoardVo> list) {
 		boolean result=false;
 		Connection conn=null;
 		PreparedStatement pstmt=null;
+		int count=0;
 		try {
 			conn = getConnection();
 			// 3. SQL 준비
+			String sql="";
+			if(list.get(0).getDepth()==0) {
+				sql="delete from board where group_no=?";
+				pstmt = conn.prepareStatement(sql);
+				
+				// 4. 바인딩
+				pstmt.setLong(1, list.get(0).getGroupNo());
+				// 5. sql문 실행
+				pstmt.executeUpdate();
+			}
+			else if(list.size()>1) {
+				sql="delete from board where group_no=? and order_no>=? and order_no<? and depth>=?";
+				pstmt = conn.prepareStatement(sql);
+				
+				// 4. 바인딩
+				pstmt.setLong(1, list.get(0).getGroupNo());
+				pstmt.setInt(2, list.get(0).getOrderNo());
+				pstmt.setInt(3, list.get(1).getOrderNo());
+				pstmt.setInt(4, list.get(0).getDepth());
+				// 5. sql문 실행
+				pstmt.executeUpdate();
+			}
+			else {
+				sql="delete from board where group_no=? and order_no>=? and depth>=?";
+				pstmt = conn.prepareStatement(sql);
+				
+				// 4. 바인딩
+				pstmt.setLong(1, list.get(0).getGroupNo());
+				pstmt.setInt(2, list.get(0).getOrderNo());
+				pstmt.setInt(3, list.get(0).getDepth());
+				// 5. sql문 실행
+				pstmt.executeUpdate();
+			}
 			
-			String sql="delete from board where no=?";
-			
-			pstmt = conn.prepareStatement(sql);
-			
-			
-			// 4. 바인딩
-			pstmt.setLong(1, no);
-			// 5. sql문 실행
-			int count = pstmt.executeUpdate();
-			
-			result = count==1;
 		} catch(SQLException e) {
 			System.out.println("error:"+e);
 		} finally {
@@ -278,7 +301,62 @@ public class BoardRepository {
 			
 		}
 		
-		return result;
+		return count;
+	}
+	
+	public List<BoardVo> deletefind(BoardVo vo) {
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		List<BoardVo> list = new ArrayList<>();
+		try {
+			conn = getConnection();
+			// 3. SQL 준비
+			
+			String sql="select no, group_no, order_no, depth from board where depth=? and group_no=? and order_no>=? order by order_no";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			
+			// 4. 바인딩
+			pstmt.setInt(1,vo.getDepth());
+			pstmt.setLong(2,vo.getGroupNo());
+			pstmt.setInt(3,vo.getOrderNo());
+			// 5. sql문 실행
+			rs = pstmt.executeQuery();
+			
+			// 6. 데이터 가져오기
+			while(rs.next()) {
+				Long no=rs.getLong(1);
+				Long groupNo=rs.getLong(2);
+				int orderNo=rs.getInt(3);
+				int depth=rs.getInt(4);
+				
+				BoardVo vo2 = new BoardVo();
+				vo2.setNo(no);
+				vo2.setGroupNo(groupNo);
+				vo2.setOrderNo(orderNo);
+				vo2.setDepth(depth);
+				list.add(vo2);
+			}
+			
+		} catch(SQLException e) {
+			System.out.println("error:"+e);
+		} finally {
+			try {
+				// 3. 자원정리
+				if(pstmt != null) {
+					pstmt.close();
+				}
+				if(conn!=null) {
+					conn.close();
+				}
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		return list;
 	}
 	
 	public boolean update(BoardVo vo) {
