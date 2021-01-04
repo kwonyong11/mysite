@@ -25,6 +25,4 @@ public class GuestbookService {
 	public void deleteMessage(GuestbookVo vo) {
 		guestbookRepository.delete(vo);
 	}
-
-
 }

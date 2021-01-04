@@ -8,13 +8,12 @@ import com.bitacademy.mysite.vo.UserVo;
 
 @Service
 public class UserService {
-	
 	@Autowired
 	private UserRepository userRepository;
 
 	public boolean join(UserVo vo) {
-		int count=userRepository.insert(vo);
-		return count==1;
+		int count = userRepository.insert(vo);
+		return count == 1;
 	}
 
 	public UserVo getUser(UserVo vo) {
@@ -27,7 +26,8 @@ public class UserService {
 
 	public boolean updateUser(UserVo vo) {
 		int count = userRepository.update(vo);
-		
-		return count==1;
+		return count == 1;
 	}
+	
+	
 }
