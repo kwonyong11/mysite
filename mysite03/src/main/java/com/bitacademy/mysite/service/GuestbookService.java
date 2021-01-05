@@ -19,9 +19,7 @@ public class GuestbookService {
 	}
 
 	public void writeMessage(GuestbookVo vo) {
-		System.out.println(vo);
 		guestbookRepository.insert(vo);
-		System.out.println(vo);
 	}
 
 	public void deleteMessage(GuestbookVo vo) {
