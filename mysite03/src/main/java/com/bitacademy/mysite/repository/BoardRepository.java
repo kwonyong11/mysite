@@ -8,8 +8,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.bitacademy.mysite.vo.BoardVo;
 
+@Repository
 public class BoardRepository {
 	
 	public int count(){
