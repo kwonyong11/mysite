@@ -243,7 +243,6 @@ public class BoardRepository {
 	}
 	
 	public int delete(List<BoardVo> list) {
-		boolean result=false;
 		Connection conn=null;
 		PreparedStatement pstmt=null;
 		int count=0;
