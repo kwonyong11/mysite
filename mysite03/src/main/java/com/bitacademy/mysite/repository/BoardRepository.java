@@ -69,7 +69,7 @@ public class BoardRepository {
 			conn = getConnection();
 			int start = (n-1)*10;
 			// 3. SQL 준비
-			String sql="select a.no, a.title, a.reg_date, a.hit, b.name, a.order_no, a.depth, a.group_no "
+			String sql="select a.no, a.title, a.reg_date, a.hit, b.name, a.order_no, a.depth, a.group_no, a.user_no "
 					+ "from board a, user b "
 					+ "where a.user_no = b.no "
 					+ "order by a.group_no desc, a.order_no asc "
@@ -94,6 +94,7 @@ public class BoardRepository {
 				int orderNo=rs.getInt(6);
 				int depth=rs.getInt(7);
 				Long groupNo=rs.getLong(8);
+				Long userNo=rs.getLong(9);
 				
 				BoardVo vo = new BoardVo();
 				vo.setNo(no);
@@ -104,6 +105,7 @@ public class BoardRepository {
 				vo.setOrderNo(orderNo);
 				vo.setDepth(depth);
 				vo.setGroupNo(groupNo);
+				vo.setUserNo(userNo);
 				list.add(vo);
 			}
 		}catch(SQLException e) {

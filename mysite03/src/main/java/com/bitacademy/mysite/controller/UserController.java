@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.bitacademy.mysite.service.UserService;
 import com.bitacademy.mysite.vo.UserVo;
 import com.bitacademy.security.Auth;
+import com.bitacademy.security.AuthUser;
 import com.bitacademy.security.Role;
 
 @Controller
@@ -42,13 +43,7 @@ public class UserController {
 	
 	@Auth
 	@RequestMapping(value="/update", method=RequestMethod.GET)
-	public String update(HttpSession session, Model model) {
-		// ACL(접근제어)
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		
+	public String update(@AuthUser UserVo authUser, Model model) {
 		Long no = authUser.getNo();
 		UserVo userVo = userService.getUser(no);
 		
@@ -57,12 +52,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(value="/update", method=RequestMethod.POST)
-	public String update(HttpSession session, UserVo userVo) {
-		// ACL(접근제어)
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
+	public String update(@AuthUser UserVo authUser, UserVo userVo) {
 		
 		Long no = authUser.getNo();
 		userVo.setNo(no);

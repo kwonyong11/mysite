@@ -23,9 +23,7 @@ public class BoardService {
 		return boardRepository.findAll(n);
 	}
 	
-	public void writeBoard(Long no, BoardVo vo, HttpSession session) {
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		System.out.println(authUser.getNo());
+	public void writeBoard(Long no, BoardVo vo, UserVo authUser) {
 		Long authNo = authUser.getNo();
 		Long groupNo=0L;
 		int orderNo=0;

@@ -42,11 +42,11 @@
 						<td>${vo.userName }</td>
 						<td>${vo.hit }</td>
 						<td>${vo.regDate }</td>
-						<td><a href="${pageContext.request.contextPath }/board/add/${vo.no }"><img src='${pageContext.servletContext.contextPath }/assets/images/reply.png'/></a></td>
+						<td><a href="${pageContext.request.contextPath }/board/add?no=${vo.no }"><img src='${pageContext.servletContext.contextPath }/assets/images/reply.png'/></a></td>
 						<td>
 						<c:choose>
 							<c:when test="${authUser.no == vo.userNo }">
-								<a href="${pageContext.request.contextPath }/board/delete/${vo.no}" class="del">삭제</a>
+								<a href="${pageContext.request.contextPath }/board/delete?no=${vo.no}" class="del">삭제</a>
 							</c:when>
 						</c:choose>
 						</td>
@@ -58,13 +58,13 @@
 				<div class="pager">
 					<ul>
 						<c:choose>
-							<c:when test="${param.n>1 }">
-								<li><a href="${pageContext.request.contextPath }/board/${param.n-1}">◀</a></li>
+							<c:when test="${param.p>1 }">
+								<li><a href="${pageContext.request.contextPath }/board/${param.p-1}">◀</a></li>
 							</c:when>
 						</c:choose>
 						<c:choose>
-							<c:when test="${param.n>3 }">
-								<c:set var='begin' value='${param.n-2 }'></c:set>
+							<c:when test="${param.p>3 }">
+								<c:set var='begin' value='${param.p-2 }'></c:set>
 							</c:when>
 							<c:otherwise>
 								<c:set var='begin' value='1'></c:set>
@@ -72,7 +72,7 @@
 						</c:choose>
 						<c:forEach begin='${begin }' end='${begin+4 }' var='c'>
 							<c:choose>
-								<c:when test="${param.n==c }">
+								<c:when test="${param.p==c }">
 									<li class="selected"><a href="${pageContext.request.contextPath }/board/${c}">${c }</a></li>
 								</c:when>
 								<c:when test="${count/10+1 > c }">
@@ -84,8 +84,8 @@
 							</c:choose>
 						</c:forEach>
 						<c:choose>
-							<c:when test="${param.n<count/10 }">
-								<li><a href="${pageContext.request.contextPath }/board/${param.n+1}">▶</a></li>
+							<c:when test="${param.p<count/10 }">
+								<li><a href="${pageContext.request.contextPath }/board/${param.p+1}">▶</a></li>
 							</c:when>
 						</c:choose>
 					</ul>
