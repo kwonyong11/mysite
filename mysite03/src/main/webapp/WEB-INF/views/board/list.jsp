@@ -30,23 +30,29 @@
 					</tr>
 					<c:forEach items='${list }' var='vo' varStatus='status'>
 					<tr>
-						<td>${count-status.index-(param.n-1)*10 }</td>
+						<td>${count-status.index-(page-1)*10 }</td>
 						<c:choose>
 							<c:when test="${vo.orderNo>0 }">
-								<td style='text-align:left; padding-left:${vo.depth*20 }px'><a href="${pageContext.request.contextPath }/board/view/${vo.no }"><img src='${pageContext.servletContext.contextPath }/assets/images/reply.png' /> ${vo.title }</a></td>
+								<td style='text-align:left; padding-left:${vo.depth*20 }px'><a href="${pageContext.request.contextPath }/board/view?no=${vo.no }&page=${page }"><img src='${pageContext.servletContext.contextPath }/assets/images/reply.png' /> ${vo.title }</a></td>
 							</c:when>
 							<c:otherwise>
-								<td style='text-align:left; padding-left:0px'><a href="${pageContext.request.contextPath }/board/view/${vo.no }">${vo.title }</a></td>
+								<td style='text-align:left; padding-left:0px'><a href="${pageContext.request.contextPath }/board/view?no=${vo.no }&page=${page }">${vo.title }</a></td>
 							</c:otherwise>
 						</c:choose>
 						<td>${vo.userName }</td>
 						<td>${vo.hit }</td>
 						<td>${vo.regDate }</td>
-						<td><a href="${pageContext.request.contextPath }/board/add?no=${vo.no }"><img src='${pageContext.servletContext.contextPath }/assets/images/reply.png'/></a></td>
+						<td>
+						<c:choose>
+							<c:when test="${not empty authUser }">
+						<a href="${pageContext.request.contextPath }/board/add?no=${vo.no }&page=${page }"><img src='${pageContext.servletContext.contextPath }/assets/images/reply.png'/></a>
+							</c:when>
+						</c:choose>
+						</td>
 						<td>
 						<c:choose>
 							<c:when test="${authUser.no == vo.userNo }">
-								<a href="${pageContext.request.contextPath }/board/delete?no=${vo.no}" class="del">삭제</a>
+								<a href="${pageContext.request.contextPath }/board/delete?no=${vo.no}&page=${page }" class="del">삭제</a>
 							</c:when>
 						</c:choose>
 						</td>
@@ -58,13 +64,13 @@
 				<div class="pager">
 					<ul>
 						<c:choose>
-							<c:when test="${param.p>1 }">
-								<li><a href="${pageContext.request.contextPath }/board/${param.p-1}">◀</a></li>
+							<c:when test="${page>1 }">
+								<li><a href="${pageContext.request.contextPath }/board?page=${page-1}">◀</a></li>
 							</c:when>
 						</c:choose>
 						<c:choose>
-							<c:when test="${param.p>3 }">
-								<c:set var='begin' value='${param.p-2 }'></c:set>
+							<c:when test="${page>3 }">
+								<c:set var='begin' value='${page-2 }'></c:set>
 							</c:when>
 							<c:otherwise>
 								<c:set var='begin' value='1'></c:set>
@@ -72,11 +78,11 @@
 						</c:choose>
 						<c:forEach begin='${begin }' end='${begin+4 }' var='c'>
 							<c:choose>
-								<c:when test="${param.p==c }">
-									<li class="selected"><a href="${pageContext.request.contextPath }/board/${c}">${c }</a></li>
+								<c:when test="${page==c }">
+									<li class="selected"><a href="${pageContext.request.contextPath }/board?page=${c}">${c }</a></li>
 								</c:when>
 								<c:when test="${count/10+1 > c }">
-									<li><a href="${pageContext.request.contextPath }/board/${c}">${c }</a></li>
+									<li><a href="${pageContext.request.contextPath }/board?page=${c}">${c }</a></li>
 								</c:when>
 								<c:otherwise>
 									<li>${c }</li>
@@ -84,8 +90,8 @@
 							</c:choose>
 						</c:forEach>
 						<c:choose>
-							<c:when test="${param.p<count/10 }">
-								<li><a href="${pageContext.request.contextPath }/board/${param.p+1}">▶</a></li>
+							<c:when test="${page<count/10 }">
+								<li><a href="${pageContext.request.contextPath }/board?page=${page+1}">▶</a></li>
 							</c:when>
 						</c:choose>
 					</ul>
@@ -95,7 +101,7 @@
 				<c:choose>
 					<c:when test="${not empty authUser }">
 						<div class="bottom">
-							<a href="${pageContext.request.contextPath }/board/add" id="new-book">글쓰기</a>
+							<a href="${pageContext.request.contextPath }/board/add?page=${page }" id="new-book">글쓰기</a>
 						</div>
 					</c:when>
 				</c:choose>

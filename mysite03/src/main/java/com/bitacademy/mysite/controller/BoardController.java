@@ -2,8 +2,6 @@ package com.bitacademy.mysite.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,9 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bitacademy.mysite.service.BoardService;
-import com.bitacademy.mysite.service.GuestbookService;
 import com.bitacademy.mysite.vo.BoardVo;
-import com.bitacademy.mysite.vo.GuestbookVo;
 import com.bitacademy.mysite.vo.UserVo;
 import com.bitacademy.security.Auth;
 import com.bitacademy.security.AuthUser;
@@ -28,36 +24,54 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@RequestMapping("")
-	public String index(@RequestParam(value="p", defaultValue="1") Integer p, Model model, @AuthUser UserVo authUser) {
-		List<BoardVo> list = boardService.getBoardList(p);
+	public String index(@RequestParam(value="page", defaultValue="1") Integer page, Model model, @AuthUser UserVo authUser) {
+		List<BoardVo> list = boardService.getBoardList(page);
 		model.addAttribute("list",list);
+		model.addAttribute("count",boardService.count());
+		model.addAttribute("page", page);
 		model.addAttribute("authUser", authUser);
 		return "board/list";
 	}
 
+	@RequestMapping(value="/view", method=RequestMethod.GET)
+	public String view(Long no, int page, Model model) {
+		BoardVo vo = boardService.view(no);
+		model.addAttribute("vo", vo);
+		model.addAttribute("page", page);
+		return "board/view";
+	}
 	
 	@Auth
 	@RequestMapping(value="/add", method=RequestMethod.GET)
-	public String add(Long no, Model model) {
+	public String add(Long no, Model model, int page) {
 		model.addAttribute("boardNo", no);
+		model.addAttribute("page", page);
 		return "board/write";
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String add(Long boardNo, BoardVo vo,@AuthUser UserVo authUser) {
+	public String add(Long boardNo, BoardVo vo,@AuthUser UserVo authUser, int page) {
 		boardService.writeBoard(boardNo, vo, authUser);
-		return "redirect:/board";
+		return "redirect:/board?page="+page;
 	}
 	
-//	@RequestMapping(value="/delete/{no}", method=RequestMethod.GET)
-//	public String delete(@PathVariable("no") Long no, Model model) {
-//		model.addAttribute("no", no);
-//		return "guestbook/delete";
-//	}
+	@RequestMapping(value="/delete", method=RequestMethod.GET)
+	public String delete(Long no, int page) {
+		boardService.delete(no);
+		return "redirect:/board?page="+page;
+	}
 	
-//	@RequestMapping(value="/delete", method=RequestMethod.POST)
-//	public String delete(GuestbookVo vo) {
-//		guestbookService.deleteMessage(vo);
-//		return "redirect:/guestbook";
-//	}
+	@RequestMapping(value="/modify", method=RequestMethod.GET)
+	public String modify(Long boardNo, int page, Model model) {
+		BoardVo vo = boardService.view(boardNo);
+		model.addAttribute("vo", vo);
+		model.addAttribute("page", page);
+		return "board/modify";
+	}
+	
+	@RequestMapping(value="/modify", method=RequestMethod.POST)
+	public String modify(BoardVo vo, int page) {
+		boardService.modify(vo);
+		return "redirect:/board/view?no="+vo.getNo()+"&page="+page;
+	}
 }

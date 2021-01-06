@@ -15,7 +15,7 @@
 		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="board">
-				<form class="board-form" method="post" action="${pageContext.servletContext.contextPath }/board?a=modify&no=${vo.no}">
+				<form class="board-form" method="post" action="${pageContext.servletContext.contextPath }/board/modify?no=${vo.no}&page=${page }">
 					<table class="tbl-ex">
 						<tr>
 							<th colspan="2">글수정</th>
@@ -27,12 +27,12 @@
 						<tr>
 							<td class="label">내용</td>
 							<td>
-								<textarea id="content" name="content">${fn:replace(vo.contents,newline,"<br>") }</textarea>
+								<textarea id="content" name="contents">${fn:replace(vo.contents,newline,"<br>") }</textarea>
 							</td>
 						</tr>
 					</table>
 					<div class="bottom">
-						<a href="${pageContext.servletContext.contextPath }/board?a=view&no=${vo.no}">취소</a>
+						<a href="${pageContext.servletContext.contextPath }/board/view?no=${vo.no}&page=${page }">취소</a>
 						<input type="submit" value="수정">
 					</div>
 				</form>				

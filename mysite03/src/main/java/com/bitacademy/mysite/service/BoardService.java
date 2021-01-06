@@ -2,15 +2,11 @@ package com.bitacademy.mysite.service;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bitacademy.mysite.repository.BoardRepository;
-import com.bitacademy.mysite.repository.GuestbookRepository;
 import com.bitacademy.mysite.vo.BoardVo;
-import com.bitacademy.mysite.vo.GuestbookVo;
 import com.bitacademy.mysite.vo.UserVo;
 
 @Service
@@ -21,6 +17,19 @@ public class BoardService {
 
 	public List<BoardVo> getBoardList(int n) {
 		return boardRepository.findAll(n);
+	}
+	
+	public int count() {
+		return boardRepository.count();
+	}
+	
+	public BoardVo view(Long no) {
+		
+		BoardVo vo = boardRepository.view(no);
+		
+		boardRepository.hit(no);
+		
+		return vo;
 	}
 	
 	public void writeBoard(Long no, BoardVo vo, UserVo authUser) {
@@ -41,5 +50,16 @@ public class BoardService {
 		vo.setDepth(depth);
 		vo.setUserNo(authNo);
 		boardRepository.insert(vo);
+	}
+	
+	public void delete(Long no) {
+		BoardVo vo = boardRepository.view(no);
+		List<BoardVo> list = boardRepository.deletefind(vo);
+		
+		boardRepository.delete(list);
+	}
+	
+	public void modify(BoardVo vo) {
+		boardRepository.update(vo);
 	}
 }

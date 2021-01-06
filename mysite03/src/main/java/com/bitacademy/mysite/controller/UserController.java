@@ -1,7 +1,5 @@
 package com.bitacademy.mysite.controller;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +10,6 @@ import com.bitacademy.mysite.service.UserService;
 import com.bitacademy.mysite.vo.UserVo;
 import com.bitacademy.security.Auth;
 import com.bitacademy.security.AuthUser;
-import com.bitacademy.security.Role;
 
 @Controller
 @RequestMapping("/user")
