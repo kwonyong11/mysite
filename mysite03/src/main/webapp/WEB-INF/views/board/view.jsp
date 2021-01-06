@@ -34,7 +34,9 @@
 				</table>
 				<div class="bottom">
 					<a href="${pageContext.servletContext.contextPath }/board?page=${page }">글목록</a>
-					<a href="${pageContext.servletContext.contextPath }/board/modify?boardNo=${vo.no }&page=${page }">글수정</a>
+					<c:if test="${authUser.no==vo.userNo }">
+						<a href="${pageContext.servletContext.contextPath }/board/modify?boardNo=${vo.no }&page=${page }">글수정</a>
+					</c:if>
 				</div>
 			</div>
 		</div>

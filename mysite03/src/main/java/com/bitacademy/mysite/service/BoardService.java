@@ -43,12 +43,14 @@ public class BoardService {
 			groupNo=BoardVo.getGroupNo();
 			orderNo=BoardVo.getOrderNo()+1;
 		}
-		
 		vo.setGroupNo(groupNo);
 		vo.setNo(no);
 		vo.setOrderNo(orderNo);
 		vo.setDepth(depth);
 		vo.setUserNo(authNo);
+		if(vo.getGroupNo()!=0) {
+			boardRepository.commendUpdate(vo);
+		}
 		boardRepository.insert(vo);
 	}
 	

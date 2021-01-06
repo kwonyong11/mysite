@@ -34,10 +34,11 @@ public class BoardController {
 	}
 
 	@RequestMapping(value="/view", method=RequestMethod.GET)
-	public String view(Long no, int page, Model model) {
+	public String view(Long no, int page, Model model, @AuthUser UserVo authUser) {
 		BoardVo vo = boardService.view(no);
 		model.addAttribute("vo", vo);
 		model.addAttribute("page", page);
+		model.addAttribute("authUser", authUser);
 		return "board/view";
 	}
 	
@@ -66,6 +67,7 @@ public class BoardController {
 		BoardVo vo = boardService.view(boardNo);
 		model.addAttribute("vo", vo);
 		model.addAttribute("page", page);
+		model.addAttribute("boardNo", boardNo);
 		return "board/modify";
 	}
 	
