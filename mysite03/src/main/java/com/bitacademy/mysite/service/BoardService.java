@@ -22,14 +22,14 @@ public class BoardService {
 	public List<BoardVo> getBoardList(int n) {
 		return boardRepository.findAll(n);
 	}
-
-	public void writeBoard(Long no, BoardVo vo,HttpSession session) {
+	
+	public void writeBoard(Long no, BoardVo vo, HttpSession session) {
 		UserVo authUser = (UserVo)session.getAttribute("authUser");
+		System.out.println(authUser.getNo());
 		Long authNo = authUser.getNo();
 		Long groupNo=0L;
 		int orderNo=0;
 		int depth=0;
-		
 		if(no!=null) {
 			BoardVo BoardVo = boardRepository.view(no);
 			depth=BoardVo.getDepth()+1;

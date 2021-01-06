@@ -17,6 +17,7 @@ import com.bitacademy.mysite.service.GuestbookService;
 import com.bitacademy.mysite.vo.BoardVo;
 import com.bitacademy.mysite.vo.GuestbookVo;
 import com.bitacademy.mysite.vo.UserVo;
+import com.bitacademy.security.Auth;
 
 @Controller
 @RequestMapping("/board")
@@ -25,15 +26,17 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@RequestMapping("/")
-	public String index(@RequestParam(value="n", defaultValue="1") Integer n, Model model) {
-
+	@RequestMapping("")
+	public String index(@RequestParam(value="n", defaultValue="1") Integer n, Model model, HttpSession session) {
 		List<BoardVo> list = boardService.getBoardList(n);
+		UserVo authUser=(UserVo)session.getAttribute("authUser");
 		model.addAttribute("list",list);
+		model.addAttribute("authUser", authUser);
 		return "board/list";
 	}
 
 	
+	@Auth
 	@RequestMapping(value="/add", method=RequestMethod.GET)
 	public String add(Long no, Model model) {
 		model.addAttribute("boardNo", no);
@@ -41,8 +44,7 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String add(Long boardNo, BoardVo vo,HttpSession session, int n) {
-		System.out.println(boardNo);
+	public String add(Long boardNo, BoardVo vo,HttpSession session) {
 		boardService.writeBoard(boardNo, vo, session);
 		return "redirect:/board";
 	}

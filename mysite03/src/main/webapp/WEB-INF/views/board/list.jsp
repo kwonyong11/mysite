@@ -45,7 +45,7 @@
 						<td><a href="${pageContext.request.contextPath }/board/add/${vo.no }"><img src='${pageContext.servletContext.contextPath }/assets/images/reply.png'/></a></td>
 						<td>
 						<c:choose>
-							<c:when test="${authUser.name == vo.userName }">
+							<c:when test="${authUser.no == vo.userNo }">
 								<a href="${pageContext.request.contextPath }/board/delete/${vo.no}" class="del">삭제</a>
 							</c:when>
 						</c:choose>
