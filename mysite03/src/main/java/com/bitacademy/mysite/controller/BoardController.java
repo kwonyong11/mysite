@@ -25,7 +25,7 @@ public class BoardController {
 	@Autowired
 	private BoardService boardService;
 	
-	@RequestMapping("/{n}")
+	@RequestMapping("/")
 	public String index(@RequestParam(value="n", defaultValue="1") Integer n, Model model) {
 
 		List<BoardVo> list = boardService.getBoardList(n);
@@ -41,10 +41,10 @@ public class BoardController {
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public String add(Long boardNo, BoardVo vo,HttpSession session, int page) {
+	public String add(Long boardNo, BoardVo vo,HttpSession session, int n) {
 		System.out.println(boardNo);
 		boardService.writeBoard(boardNo, vo, session);
-		return "redirect:/board/"+page;
+		return "redirect:/board";
 	}
 	
 //	@RequestMapping(value="/delete/{no}", method=RequestMethod.GET)

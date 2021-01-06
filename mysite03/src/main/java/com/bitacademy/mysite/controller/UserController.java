@@ -33,33 +33,6 @@ public class UserController {
 	public String login() {
 		return "user/login";
 	}
-
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String login(HttpSession session, @ModelAttribute UserVo userVo) {
-		UserVo authUser = userService.getUser(userVo);
-		if(authUser == null) {
-			return "user/login";
-		}
-		
-		// 인증처리
-		session.setAttribute("authUser", authUser);
-		return "redirect:/";
-	}
-
-	@RequestMapping(value="/logout")
-	public String logout(HttpSession session) {
-		// ACL(접근제어)
-		UserVo authUser = (UserVo)session.getAttribute("authUser");
-		if(authUser == null) {
-			return "redirect:/";
-		}
-		
-		// 로그아웃 처리
-		session.removeAttribute("authUser");
-		session.invalidate();
-		
-		return "redirect:/";
-	}
 	
 	@RequestMapping("/joinsuccess")
 	public String joinSuccess() {
