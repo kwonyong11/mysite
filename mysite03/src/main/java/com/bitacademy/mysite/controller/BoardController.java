@@ -50,18 +50,21 @@ public class BoardController {
 		return "board/write";
 	}
 	
+	@Auth
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public String add(Long boardNo, BoardVo vo,@AuthUser UserVo authUser, int page) {
 		boardService.writeBoard(boardNo, vo, authUser);
 		return "redirect:/board?page="+page;
 	}
 	
+	@Auth
 	@RequestMapping(value="/delete", method=RequestMethod.GET)
 	public String delete(Long no, int page) {
 		boardService.delete(no);
 		return "redirect:/board?page="+page;
 	}
 	
+	@Auth
 	@RequestMapping(value="/modify", method=RequestMethod.GET)
 	public String modify(Long boardNo, int page, Model model) {
 		BoardVo vo = boardService.view(boardNo);
@@ -71,6 +74,7 @@ public class BoardController {
 		return "board/modify";
 	}
 	
+	@Auth
 	@RequestMapping(value="/modify", method=RequestMethod.POST)
 	public String modify(BoardVo vo, int page) {
 		boardService.modify(vo);
