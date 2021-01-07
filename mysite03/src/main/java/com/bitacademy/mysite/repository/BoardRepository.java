@@ -30,7 +30,6 @@ public class BoardRepository {
 	}
 	
 	public void insert(BoardVo vo) {
-		System.out.println(vo);
 		sqlSession.insert("board.insert",vo);
 	}
 	
