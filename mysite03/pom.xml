@@ -31,6 +31,13 @@
 			</exclusions>			
 		</dependency>
 
+		<!-- spring aspect -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+		
 		<!-- Spring Web -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -144,7 +151,7 @@
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>tomcat-maven-plugin</artifactId>
 				<configuration>
-					<url>http://192.168.1.126:8080/manager/text</url>
+					<url>http://192.168.0.6:8080/manager/text</url>
 					<path>/mysite03</path>
 					<username>admin</username>
 					<password>manager</password>
