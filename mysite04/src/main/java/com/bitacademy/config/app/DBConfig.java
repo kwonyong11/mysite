@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
-@PropertySource("classpath:com/bitacademy/mysite/app/properties/jdbc.properties")
+@PropertySource("classpath:com/bitacademy/mysite/config/app/properties/jdbc.properties")
 public class DBConfig {
 	
 	@Autowired
