@@ -15,14 +15,14 @@ public class GuestbookRepository {
 	private SqlSession sqlSession;
 	
 	public List<GuestbookVo> findAll() {
-		return sqlSession.selectList("guestbook.findAll");	
+		return sqlSession.selectList("guestbook.findAll");
 	}
 	
 	public int delete(GuestbookVo vo) {
-		return sqlSession.delete("guestbook.delete",vo);
+		return sqlSession.delete("guestbook.delete", vo);
 	}
 	
 	public int insert(GuestbookVo vo) {
-		return sqlSession.insert("guestbook.insert",vo);
+		return sqlSession.insert("guestbook.insert", vo);
 	}
 }

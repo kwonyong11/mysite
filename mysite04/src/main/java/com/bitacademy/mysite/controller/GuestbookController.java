@@ -22,7 +22,7 @@ public class GuestbookController {
 	@RequestMapping("")
 	public String index(Model model) {
 		List<GuestbookVo> list = guestbookService.getMessageList();
-		model.addAttribute("list",list);
+		model.addAttribute("list", list);
 		return "guestbook/index";
 	}
 	
@@ -31,16 +31,17 @@ public class GuestbookController {
 		guestbookService.writeMessage(vo);
 		return "redirect:/guestbook";
 	}
-	
+
 	@RequestMapping(value="/delete/{no}", method=RequestMethod.GET)
-	public String delete(@PathVariable("no") Long no, Model model) {
-		model.addAttribute("no", no);
+	public String delete(@PathVariable("no") Long no) {
+		//model.addAttribute("no", no);
 		return "guestbook/delete";
 	}
-	
+
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public String delete(GuestbookVo vo) {
 		guestbookService.deleteMessage(vo);
 		return "redirect:/guestbook";
 	}
+	
 }

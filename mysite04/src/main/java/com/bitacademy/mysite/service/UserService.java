@@ -10,20 +10,22 @@ import com.bitacademy.mysite.vo.UserVo;
 
 @Service
 public class UserService {
-	
-	private static final Log LOGGER = LogFactory.getLog(GuestbookService.class);
-	
+	private static final Log LOGGER = LogFactory.getLog(UserService.class);
+
 	@Autowired
 	private UserRepository userRepository;
 
 	public boolean join(UserVo vo) {
-		LOGGER.info("---->before:"+vo);
+		LOGGER.info("before--->" + vo);
 		int count = userRepository.insert(vo);
-		LOGGER.info("---->after:"+vo);
+		LOGGER.info("after--->" + vo);
+
 		return count == 1;
 	}
 
 	public UserVo getUser(UserVo vo) {
+		// System.out.println("findbyEmail-->" + userRepository.findByEmail(vo.getEmail()));
+		// return userRepository.findByEmailAndPassword2(vo);
 		return userRepository.findByEmailAndPassword(vo);
 	}
 

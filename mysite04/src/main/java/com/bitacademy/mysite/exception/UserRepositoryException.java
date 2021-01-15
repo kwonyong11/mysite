@@ -1,4 +1,3 @@
-  
 package com.bitacademy.mysite.exception;
 
 public class UserRepositoryException extends RuntimeException {

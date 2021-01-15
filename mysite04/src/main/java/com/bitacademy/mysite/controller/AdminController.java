@@ -8,7 +8,7 @@ import com.bitacademy.security.Auth;
 @Auth("ADMIN")
 @Controller
 @RequestMapping("/admin")
-public class Admincontroller {
+public class AdminController {
 	
 	@RequestMapping("")
 	public String main() {
@@ -19,14 +19,15 @@ public class Admincontroller {
 	public String guestbook() {
 		return "admin/guestbook";
 	}
-	
+
 	@RequestMapping("/board")
 	public String board() {
 		return "admin/board";
 	}
-	
+
 	@RequestMapping("/user")
 	public String user() {
 		return "admin/user";
 	}
+	
 }

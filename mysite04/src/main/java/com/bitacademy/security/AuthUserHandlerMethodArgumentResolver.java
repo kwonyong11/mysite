@@ -15,13 +15,13 @@ import com.bitacademy.mysite.vo.UserVo;
 public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
 	@Override
 	public Object resolveArgument(
-			MethodParameter parameter, 
+			MethodParameter parameter,
 			ModelAndViewContainer mavContainer,
-			NativeWebRequest webRequest, 
+			NativeWebRequest webRequest,
 			WebDataBinderFactory binderFactory) throws Exception {
 		
 		if(!supportsParameter(parameter)) {
-			return WebArgumentResolver.UNRESOLVED; // null 반환
+			return WebArgumentResolver.UNRESOLVED;
 		}
 		
 		HttpServletRequest request = (HttpServletRequest)webRequest.getNativeRequest();
@@ -37,15 +37,17 @@ public class AuthUserHandlerMethodArgumentResolver implements HandlerMethodArgum
 	public boolean supportsParameter(MethodParameter parameter) {
 		AuthUser authUser = parameter.getParameterAnnotation(AuthUser.class);
 		
-		// @AuthUser가 안 붙어 있으면
+		// @AuthUser가 안 붙어 있으면....
 		if(authUser == null) {
 			return false;
 		}
 		
-		//파라미터 타입이 UserVo가 아니면
+		// 파라미터 타입이 UserVo가 아니면...
 		if(!parameter.getParameterType().equals(UserVo.class)) {
 			return false;
 		}
+		
 		return true;
 	}
+	
 }
