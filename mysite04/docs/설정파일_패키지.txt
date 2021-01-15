@@ -9,7 +9,7 @@
 	 |                         |--- /config
 	 |                         |        |--- /app
 	 |                         |        |      |--- DBConfig.java
-	 |                         |        |      |--- MyBatis.java
+	 |                         |        |      |--- MyBatisConfig.java
 	 |                         |        |--- /web
 	 |                         |               |--- MvcConfig.java
 	 |                         |               |--- SecurityConfig.java
