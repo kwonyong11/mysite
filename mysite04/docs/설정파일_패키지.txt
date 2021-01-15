@@ -13,7 +13,7 @@
 	 |                         |        |--- /web
 	 |                         |               |--- MvcConfig.java
 	 |                         |               |--- SecurityConfig.java
-	 |                         |               |--- MessageConfig.java
+	 |                         |               |--- MessageSourceConfig.java
 	 |                         |               |--- FileUploadConfig.java
 	 |                         |--- /mysite
 	 |                                 |--- /controller
