@@ -96,7 +96,7 @@
 	
 	<build>
 		<finalName>${artifactId}</finalName>
-		<sourceDirectory>/src/main/java</sourceDirectory>
+		<sourceDirectory>src/main/java</sourceDirectory>
 		<resources>
 			<resource>
 				<directory>${project.basedir}/src/main/resources</directory>
