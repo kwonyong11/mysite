@@ -84,7 +84,7 @@ $(function(){
 				
 			},
 			error: function(XHR, status, e){
-				consol.error(status + ":" + e);
+				console.error(status + ":" + e);
 			}
 		});
 	});
