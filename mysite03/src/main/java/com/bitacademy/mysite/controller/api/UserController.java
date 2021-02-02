@@ -20,9 +20,12 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping("/existemail")
 	public Map existEmail(@RequestParam(value="email", required=false, defaultValue="") String email) {
+		
+		boolean result = userService.existsEmail(email);
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("result", "success");
-		map.put("data", false);				// exist: true, not exist: false
+		map.put("data", result);				// exist: true, not exist: false
 		map.put("message", "권용");
 		
 		return map;
