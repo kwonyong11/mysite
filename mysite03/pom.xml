@@ -31,11 +31,11 @@
 			</exclusions>			
 		</dependency>
 
-		<!-- spring aspect -->
+		<!-- Spring Aspect -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aspects</artifactId>
-			<version>${org.springframework-version}</version>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-aspects</artifactId>
+		    <version>${org.springframework-version}</version>
 		</dependency>
 		
 		<!-- Spring Web -->
@@ -51,8 +51,6 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-
-		
 		<!-- Form Validation -->
 		<dependency>
 		   <groupId>javax.validation</groupId>
@@ -60,13 +58,12 @@
 		   <version>1.1.0.Final</version>
 		</dependency>
 		<dependency>
-		   <groupId>org.hibernate</groupId>
-		   <artifactId>hibernate-validator</artifactId>
-		   <version>5.2.4.Final</version>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+		    <version>5.4.3.Final</version>
 		</dependency>
-		
-		
-		<!-- spring jdbc -->
+
+		<!-- Spring JDBC -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
@@ -93,18 +90,24 @@
 			<artifactId>mybatis</artifactId>
 			<version>3.2.2</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.mybatis</groupId>
 			<artifactId>mybatis-spring</artifactId>
 			<version>1.2.0</version>
 		</dependency>
 			
-		<!-- jstl -->
+		<!-- JSTL -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
+		</dependency>
+
+		<!-- jackson -->
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.9.8</version>
 		</dependency>
 		
 		<!-- Logback --> 
@@ -119,7 +122,7 @@
 			<version>${logback.version}</version>
 		</dependency>
 				
-		<!-- servlet -->
+		<!-- Servlet -->
 		<dependency>
 		    <groupId>javax.servlet</groupId>
 		    <artifactId>javax.servlet-api</artifactId>

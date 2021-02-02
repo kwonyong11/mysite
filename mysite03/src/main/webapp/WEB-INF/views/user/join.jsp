@@ -9,13 +9,53 @@
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
 <link href="${pageContext.request.contextPath }/assets/css/user.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-3.5.1.js"></script>
+<script>
+$(function(){
+	$('#btn-check-email').click(function(){
+		let email = $("#email").val();
+		if(email == ''){
+			$("#email").focus();
+			return;
+		}
+		
+		$.ajax({
+			url: '${pageContext.request.contextPath }/api/user/existemail?' + email,
+			async: true, 
+			data: '',
+			dataType: 'json', 
+			success: function(response){
+				if(response.result != 'success'){
+					console.error(response.message);
+					return;
+				}
+				
+				if(response.data){
+					alert("존재하는 이메일 입니다. 다른 이메일을 사용해 주세요.");
+					$("#email")
+						.val('')
+						.focus();
+					return;
+				}
+				
+				$('#img-check-email').show();
+				$('#btn-check-email').hide();
+				
+			},
+			error: function(XHR, status, e){
+				consol.error(status + ":" + e);
+			}
+		});		
+		
+	});
+});
+</script>
 </head>
 <body>
 	<div id="container">
 		<c:import url="/WEB-INF/views/includes/header.jsp" />
 		<div id="content">
 			<div id="user">
-
 				<form:form
 					modelAttribute="userVo"
 					id="join-form"
@@ -31,6 +71,8 @@
 											
 					<label class="block-label" for="email">이메일</label>
 					<form:input path="email" />
+					<img id="img-check-email" style='display:none; width:28px; vertical-align: middle' src='${pageContext.request.contextPath }/assets/images/check.png' />
+					<input style='display:;' id="btn-check-email" type='button' value='중복확인' />
 					<p style="text-align:left; padding:5px 0 0 0; color:#f00">
 						<form:errors path="email"/>
 					</p>
