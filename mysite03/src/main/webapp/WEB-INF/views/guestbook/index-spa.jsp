@@ -11,21 +11,17 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-3.5.1.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="${pageContext.request.contextPath }/assets/js/ejs/ejs.js"></script>
 <script>
 let startNo = 0;
 let isEnd = false;
+const listTemplate = new EJS({
+	url: '${pageContext.request.contextPath }/assets/js/ejs/list-template.ejs'
+});
+const listItemTemplate = new EJS({
+	url: '${pageContext.request.contextPath }/assets/js/ejs/list-item-template.ejs'
+});
 /* guestbook spa application */
-const render = function(vo){
-	let html =
-		"<li data-no='" + vo.no + "'>" +
-		"<strong>" + vo.name + "</strong>" +
-		"<p>" + vo.message.replace(/\n/gi, "<br>") + "</p>" +
-		"<strong></strong>" + 
-		"<a href='' data-no='" + vo.no + "'>삭제</a>" + 
-	    "</li>";
-	
-	$('#list-guestbook').append(html);
-}
 const fetchList = function(){
 	if(isEnd) {
 		return;
@@ -50,7 +46,9 @@ const fetchList = function(){
 			}
 			
 			// rendreing
-			response.data.forEach(render);
+			console.log(response);
+			const html = listTemplate.render(response);
+			$("#list-guestbook").append(html);
 			
 			// startNo = response.data[response.data.length-1]["no"];
 			startNo = $('#list-guestbook li').last().data('no') || 0;
@@ -63,6 +61,42 @@ const fetchList = function(){
 $(function(){
 	// 버튼 이벤트(test)
 	$('#btn-fetch').click(fetchList);
+	
+	// 입력폼 submit 이벤트
+	$('#add-form').submit(function(event){
+		event.preventDefault();
+		
+		vo = {};
+		// validation
+		vo.name = $('#input-name').val();
+		vo.password = $('#input-password').val();
+		vo.message = $('#tx-message').val();
+		
+		// post
+		$.ajax({
+			url: '${pageContext.request.contextPath }/api/guestbook/add',
+			async: true,
+			type: 'post',
+			dataType: 'json',
+			data: JSON.stringify(vo),
+			contentType: 'application/json',
+			success: function(response){
+				if(response.result != 'success'){
+					console.error(response.message);
+					return;
+				}
+				
+				const html = listItemTemplate.render(response.data);
+				$('#list-guestbook').prepend(html);
+				
+				// form reset
+				$('#add-form')[0].reset();
+			},
+			error: function(xhr, status, e){
+				console.log(status + ':' + e);
+			}
+		});		
+	});
 	
 	// 창 스크롤 이벤트
 	$(window).scroll(function(){
@@ -92,7 +126,7 @@ $(function(){
 				<form id="add-form" action="" method="post">
 					<input type="text" id="input-name" placeholder="이름">
 					<input type="password" id="input-password" placeholder="비밀번호">
-					<textarea id="tx-content" placeholder="내용을 입력해 주세요."></textarea>
+					<textarea id="tx-message" placeholder="내용을 입력해 주세요."></textarea>
 					<input type="submit" value="보내기" />
 				</form>
 				<ul id="list-guestbook"></ul>
