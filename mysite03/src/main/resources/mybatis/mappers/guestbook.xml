@@ -16,17 +16,21 @@
 		]]>
 	</select>
 	
-	<select id="findAllByNo" resultType="guestbookvo">
+	<select id="findAllByNo" resultType="guestbookvo" parameterType="Long">
 		<![CDATA[
 			select no, name, date_format(reg_date, '%Y/%m/%d %H:%i:%s') as regDate, message 
 			from guestbook 
 		]]>
-		<if test='parameter > 0'>
-			where no > #{_parameter } 
+		
+		<if test="_parameter > 0">
+			<![CDATA[
+				where no < #{_parameter } 
+			]]>
 		</if>
+		
 		<![CDATA[
-			order by reg_date desc 
-			limit 0, 3
+			order by no desc 
+			limit 0, 3;
 		]]>
 	</select>
 	

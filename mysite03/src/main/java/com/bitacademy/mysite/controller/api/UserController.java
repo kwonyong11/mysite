@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.bitacademy.mysite.dto.JsonResult;
 import com.bitacademy.mysite.service.UserService;
 
-@Controller("UserApiController")
+@Controller("userApiController")
 @RequestMapping("/api/user")
 public class UserController {
 	@Autowired
