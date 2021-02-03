@@ -13,24 +13,73 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
 let startNo = 0;
-
-/*	guestbook spa application */
-$(function(){
-	$('#btn-fetch').click(function(){
-		$.ajax({
-			url: '${pageContext.request.contextPath }/api/guestbook/list/' + startNo,
-			async: true,
-			type: 'get',
-			dataType: 'json',
-			data: '',
-			success: function(response){
-				console.log(response);
-			},
-			error: function(xhr, status, e){
-				console.log(status + ':' + e);
+let isEnd = false;
+/* guestbook spa application */
+const render = function(vo){
+	let html =
+		"<li data-no='" + vo.no + "'>" +
+		"<strong>" + vo.name + "</strong>" +
+		"<p>" + vo.message.replace(/\n/gi, "<br>") + "</p>" +
+		"<strong></strong>" + 
+		"<a href='' data-no='" + vo.no + "'>삭제</a>" + 
+	    "</li>";
+	
+	$('#list-guestbook').append(html);
+}
+const fetchList = function(){
+	if(isEnd) {
+		return;
+	}
+	$.ajax({
+		url: '${pageContext.request.contextPath }/api/guestbook/list/' + startNo,
+		async: true,
+		type: 'get',
+		dataType: 'json',
+		data: '',
+		success: function(response){
+			if(response.result != 'success'){
+				console.error(response.message);
+				return;
 			}
-		})
+			
+			// detect end
+			if(response.data.length < 3){
+				isEnd = true;
+				$('#btn-fetch').prop('disabled', true);
+				return;
+			}
+			
+			// rendreing
+			response.data.forEach(render);
+			
+			// startNo = response.data[response.data.length-1]["no"];
+			startNo = $('#list-guestbook li').last().data('no') || 0;
+		},
+		error: function(xhr, status, e){
+			console.log(status + ':' + e);
+		}
+	});	
+}
+$(function(){
+	// 버튼 이벤트(test)
+	$('#btn-fetch').click(fetchList);
+	
+	// 창 스크롤 이벤트
+	$(window).scroll(function(){
+		const $window = $(this);
+		const $document = $(document);
+		
+		const scrollTop = $window.scrollTop(); 
+		const windowHeight = $window.height();
+		const documentHeight = $document.height();
+		
+		if(windowHeight + scrollTop + 10 > documentHeight){
+			fetchList();
+		}
 	});
+	
+	// 첫번쨰 리스트 가져오기
+	fetchList();
 });
 </script>
 </head>
@@ -46,40 +95,7 @@ $(function(){
 					<textarea id="tx-content" placeholder="내용을 입력해 주세요."></textarea>
 					<input type="submit" value="보내기" />
 				</form>
-				<ul id="list-guestbook">
-
-					<li data-no=''>
-						<strong>지나가다가</strong>
-						<p>
-							별루입니다.<br>
-							비번:1234 -,.-
-						</p>
-						<strong></strong>
-						<a href='' data-no=''>삭제</a> 
-					</li>
-					
-					<li data-no=''>
-						<strong>둘리</strong>
-						<p>
-							안녕하세요<br>
-							홈페이지가 개 굿 입니다.
-						</p>
-						<strong></strong>
-						<a href='' data-no=''>삭제</a> 
-					</li>
-
-					<li data-no=''>
-						<strong>주인</strong>
-						<p>
-							아작스 방명록 입니다.<br>
-							테스트~
-						</p>
-						<strong></strong>
-						<a href='' data-no=''>삭제</a> 
-					</li>
-					
-									
-				</ul>
+				<ul id="list-guestbook"></ul>
 				<div style='margin:20px 0 0 0'>
 					<button id='btn-fetch'>다음가져오기</button>
 				</div>
