@@ -78,6 +78,54 @@ const fetchList = function(){
 	});	
 }
 $(function(){
+	const dialogDelete = $("#dialog-delete-form").dialog({
+		width: 300,
+		height: 200,
+		autoOpen: false,
+		modal: true,
+		buttons: {
+			"삭제": function(){
+				const password = $("#password-delete").val();
+				const no = $('#hidden-no').val();
+				$.ajax({
+					url: '${pageContext.request.contextPath }/api/guestbook/delete/' + no,
+					async: true,
+					type: 'delete',
+					dataType: 'json',
+					data: 'password=' + password,
+					success: function(response){
+						console.log(response);
+						if(response.result != 'success'){
+							console.error(response.message);
+							return;
+						}
+						
+						if(response.data != -1){
+							$("#list-guestbook li[data-no=" + response.data + "]").remove();
+							dialogDelete.dialog('close');
+							return;
+						}
+						
+						// 비밀번호가 틀린 경우
+						$("#dialog-delete-form p.validateTips.error").show();
+					},
+					error: function(xhr, status, e){
+						console.log(status + ':' + e);
+					}
+				});					
+				
+			},
+			"취소": function(){
+				$(this).dialog('close');
+			}
+		},
+		close: function(){
+			$("#password-delete").val('');
+			$('#hidden-no').val('');
+			$("#dialog-delete-form p.validateTips.error").hide();
+		}
+	});
+	
 	// 버튼 이벤트(test)
 	$('#btn-fetch').click(fetchList);
 	
@@ -131,13 +179,15 @@ $(function(){
 		}
 	});
 	
-	
 	// 삭제 버튼 click 이벤트
 	// Live Event: 존재하지 않는 element의 이벤트 핸들러를 미리 세팅하는 것
 	// delegation(위임, document)
 	$(document).on('click', '#list-guestbook li a', function(event){
 		event.preventDefault();
-		messageBox('테스트~', '클릭~');
+		
+		const no = $(this).data('no');
+		$('#hidden-no').val(no);
+		dialogDelete.dialog('open');
 	});
 	
 	// 첫번쨰 리스트 가져오기
@@ -185,7 +235,15 @@ $(function(){
 					<button id='btn-fetch' title='jQuery plugin'>다음가져오기</button>
 				</div>
 			</div>
-x
+			<div id="dialog-delete-form" title="메세지 삭제" style="display:none">
+  				<p class="validateTips normal">작성시 입력했던 비밀번호를 입력하세요.</p>
+  				<p class="validateTips error" style="display:none">비밀번호가 틀립니다.</p>
+  				<form>
+ 					<input type="password" id="password-delete" value="" class="text ui-widget-content ui-corner-all">
+					<input type="hidden" id="hidden-no" value="">
+					<input type="submit" tabindex="-1">
+  				</form>
+			</div>
 			<div id="dialog-message" title="" style="display:none">
   				<p></p>
 			</div>						

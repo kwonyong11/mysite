@@ -12,7 +12,6 @@ import com.bitacademy.mysite.vo.GuestbookVo;
 
 @Service
 public class GuestbookService {
-	
 	private static final Log LOGGER = LogFactory.getLog(GuestbookService.class);
 	
 	@Autowired
@@ -21,16 +20,30 @@ public class GuestbookService {
 	public List<GuestbookVo> getMessageList() {
 		return guestbookRepository.findAll();
 	}
-	
+
 	public List<GuestbookVo> getMessageList(Long startNo) {
 		return guestbookRepository.findAll(startNo);
 	}
 	
 	public void writeMessage(GuestbookVo vo) {
+		LOGGER.info("---->before:" + vo);
 		guestbookRepository.insert(vo);
+		LOGGER.info("---->after:" + vo);
+//		aristRepository.insert(artistVo);
+//		songVo.setArtistNo(artistNo.getNo());
+//		songRepository.insert(songVo);
 	}
 
-	public void deleteMessage(GuestbookVo vo) {
-		guestbookRepository.delete(vo);
+	public boolean deleteMessage(GuestbookVo vo) {
+		int count = guestbookRepository.delete(vo);
+		return count == 1;
+	}
+
+	public boolean deleteMessage(Long no, String password) {
+		GuestbookVo vo = new GuestbookVo();
+		vo.setNo(no);
+		vo.setPassword(password);
+		
+		return deleteMessage(vo);
 	}
 }
