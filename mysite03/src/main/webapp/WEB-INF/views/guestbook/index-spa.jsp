@@ -50,6 +50,7 @@ const fetchList = function(){
 			const html = listTemplate.render(response);
 			$("#list-guestbook").append(html);
 			
+			
 			// startNo = response.data[response.data.length-1]["no"];
 			startNo = $('#list-guestbook li').last().data('no') || 0;
 		},
@@ -112,9 +113,30 @@ $(function(){
 		}
 	});
 	
+	
+	// 삭제 버튼 click 이벤트
+	// Live Event: 존재하지 않는 element의 이벤트 핸들러를 미리 세팅하는 것
+	// delegation(위임, document)
+	$(document).on('click', '#list-guestbook li a', function(event){
+		event.preventDefault();
+		console.log('click');
+	});
+	
 	// 첫번쨰 리스트 가져오기
 	fetchList();
+	
+	// jQuery Plugin Test
+	$("#btn-fetch").hello();
 });
+</script>
+
+<script>
+(function($){
+	$.fn.hello = function(){
+		console.log(this.length);
+		console.log("hello #" + this.attr('title'))
+	}
+})(jQuery);
 </script>
 </head>
 <body>
@@ -131,7 +153,7 @@ $(function(){
 				</form>
 				<ul id="list-guestbook"></ul>
 				<div style='margin:20px 0 0 0'>
-					<button id='btn-fetch'>다음가져오기</button>
+					<button id='btn-fetch' title='jQuery plugin'>다음가져오기</button>
 				</div>
 			</div>
 			<div id="dialog-delete-form" title="메세지 삭제" style="display:none">
