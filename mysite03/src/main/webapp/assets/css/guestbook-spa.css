@@ -102,4 +102,5 @@
 #guestbook.delete-form input[type="submit"] {
 	width:296px;
 }		
-#guestbook.delete-message p	{ padding:100px; height:50px; text-align:center }
+
+#dialog-message p	{ display:table-cell; vertical-align:middle; text-align:center }

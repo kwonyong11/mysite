@@ -22,6 +22,24 @@ const listItemTemplate = new EJS({
 	url: '${pageContext.request.contextPath }/assets/js/ejs/list-item-template.ejs'
 });
 /* guestbook spa application */
+const messageBox = function(title, message, callback){
+	$("#dialog-message")
+		.attr('title', title)
+		.dialog({
+			modal: true,
+			buttons: {
+				"확인": function(){
+					$(this).dialog('close');
+				}
+			},
+			close: callback || function(){}
+		});
+	
+	$("#dialog-message p")
+		.height($("#dialog-message").height())
+		.width($("#dialog-message").width())
+		.html(message.replace(/\n/gi, '<br>'));
+}
 const fetchList = function(){
 	if(isEnd) {
 		return;
@@ -119,7 +137,7 @@ $(function(){
 	// delegation(위임, document)
 	$(document).on('click', '#list-guestbook li a', function(event){
 		event.preventDefault();
-		console.log('click');
+		messageBox('테스트~', '클릭~');
 	});
 	
 	// 첫번쨰 리스트 가져오기
@@ -127,14 +145,25 @@ $(function(){
 	
 	// jQuery Plugin Test
 	$("#btn-fetch").hello();
+	$("#btn-fetch").flash();
 });
 </script>
 
 <script>
 (function($){
 	$.fn.hello = function(){
-		console.log(this.length);
+		console.log(this);
 		console.log("hello #" + this.attr('title'))
+	}
+})(jQuery);
+(function($){
+	$.fn.flash = function(){
+		const $this = this;
+		let isBlink = false;
+		setInterval(function(){
+			$this.css('backgroundColor', (isBlink ? '#f00' : '#aaa'));
+			isBlink = !isBlink;
+		}, 1000);
 	}
 })(jQuery);
 </script>
@@ -156,15 +185,7 @@ $(function(){
 					<button id='btn-fetch' title='jQuery plugin'>다음가져오기</button>
 				</div>
 			</div>
-			<div id="dialog-delete-form" title="메세지 삭제" style="display:none">
-  				<p class="validateTips normal">작성시 입력했던 비밀번호를 입력하세요.</p>
-  				<p class="validateTips error" style="display:none">비밀번호가 틀립니다.</p>
-  				<form>
- 					<input type="password" id="password-delete" value="" class="text ui-widget-content ui-corner-all">
-					<input type="hidden" id="hidden-no" value="">
-					<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
-  				</form>
-			</div>
+x
 			<div id="dialog-message" title="" style="display:none">
   				<p></p>
 			</div>						
