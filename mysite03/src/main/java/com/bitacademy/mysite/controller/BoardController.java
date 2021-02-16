@@ -22,7 +22,7 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
-	
+	//ㅇㅇㅇ
 	@RequestMapping("")
 	public String index(@RequestParam(value="page", defaultValue="1") Integer page, Model model, @AuthUser UserVo authUser) {
 		List<BoardVo> list = boardService.getBoardList(page);
